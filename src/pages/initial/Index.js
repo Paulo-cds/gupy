@@ -9,21 +9,37 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-
+import { useHistory } from "react-router-dom"
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import axios from 'axios'
+import useAuth from '../../state/auth'
+import Container from '@material-ui/core/Container'
+import Background from '../../images/index.jpg'
 
 const useStyles = makeStyles({
+  container:{
+    width: '100%',
+    height: '100vh',
+    backgroundColor: '#c8c8c8',
+    
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+  },
   root: {
     width: 300,
+    height: 250,
     position: 'absolute',
-    top: '35%',
-    left: '35%',
+    top: 'calc(50% - 300px/2)',
+    left: 'calc(50% - 300px/2)',
     display: 'flex',
     justifyContent: 'center',
+    textAlign: 'center',
+    boxShadow: '0px 0px 30px black',
+    opacity: .85,
   },
   content: {
     margin: '0 auto',
@@ -36,17 +52,25 @@ const useStyles = makeStyles({
   },
   title: {
     fontSize: 20,
+    fontWeight: 'bold',
+    color: 'black',
   },
   subTitle:{
     display: 'flex',
     flexWrap: 'wrap',
+    fontSize: '15px',
   },
   pos: {
     marginBottom: 12,
   },
   formControl: {
-    margin: 10,
+    marginTop: 20 ,
     minWidth: 120,
+    fontSize: '15px',
+    width: 140,
+  },
+  inputQuest:{
+    fontSize: '20px',
   },
 });
 
@@ -54,19 +78,15 @@ const useStyles = makeStyles({
 const Index = () => {
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
+  const history = useHistory()
+  const {dataQuestions, setDataQuestions} = useAuth()
+  const [data, setData] = React.useState([])
+  const [state, setState] = React.useState();
 
-  const [state, setState] = React.useState({
-    questions: '',
-    name: 'hai',
-  });
-
-  const handleChange = (event) => {
-    const name = event.target.name;
-    setState({
-      ...state,
-      [name]: event.target.value,
-    });
-    console.log(event.target.value)
+  const handleChange = (event) => {  
+    const value = event.target.value
+    setState(value);
+    console.log(value)
 
     handleDialogOpen()
   };
@@ -77,22 +97,41 @@ const Index = () => {
     setOpen(!open);
   };
 
+  const handleQuestions = () => {
+    
+    //history.push("/questions")
+    handleDialogOpen()
+    
+    fetchData(state)
+  }
+
+  async function fetchData() {
+    let response = await axios(`https://opentdb.com/api.php?amount=${state}`)
+    await setDataQuestions(response.data.results);
+    await history.push("/questions")
+    
+    /* console.log(data);
+    setDataQuestions(data) */
+    handleDialogOpen()
+    // history.push("/questions")
+  }
+
   return (
-    <>
+    <Container maxWidth="xl" className={classes.container} style={{backgroundImage: `url(${Background})` }}>
       <Card className={classes.root}>
         <CardContent className={classes.content}>
           <Typography className={classes.title} color="textSecondary" gutterBottom>
             Seja bem-vindo!
           </Typography>
-          <Typography variant="h5" component="h5" className={classes.subtitle}>
+          <Typography className={classes.subtitle}>
             Escolha a quantidade de perguntas que deseja responder:
           </Typography>
           
           <FormControl variant="filled" className={classes.formControl}>
-            <InputLabel htmlFor="filled-age-native-simple">Perguntas</InputLabel>
+            <InputLabel htmlFor="filled-age-native-simple" className={classes.inputQuest}>Perguntas</InputLabel>
             <Select
               native
-              value={state.questions}
+              value={state}
               onChange={handleChange}
               inputProps={{
                 name: 'questions',
@@ -135,13 +174,13 @@ const Index = () => {
           <Button onClick={handleDialogOpen} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleDialogOpen} color="primary" autoFocus>
+          <Button onClick={fetchData} color="primary" autoFocus>
             Start
           </Button>
         </DialogActions>
       </Dialog>
 
-    </>
+    </Container>
   );
 }
 
