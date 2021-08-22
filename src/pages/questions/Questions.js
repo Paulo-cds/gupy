@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react'
-import axios from 'axios'
+import { useHistory } from "react-router-dom"
 import Container from '@material-ui/core/Container'
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
@@ -40,7 +40,7 @@ const useStyles = makeStyles({
   },
   root: {
     width: 500,
-    minHeight: 400,
+    minHeight: 450,
     display: 'block',
     position: 'absolute',
     top: 'calc(50% - 400px/2)',
@@ -140,18 +140,10 @@ const Questions = () => {
     const [resultado, setResultado] = useState('none')
     const [displayNext, setDisplayNext] = useState('block')
     const {dataQuestions} = useAuth()
-    console.log(`data no questions ${dataQuestions.length}`)
-    
-    const [form, setForm] = useState ({
-      user:{
-          value: '',
-          error: false,
-      },
-      password:{
-          value:'',
-          error: false,
-      },
-    })
+    const [form, setForm] = useState ()
+    const {respostasCertas, setRespostasCertas }= useAuth()
+    const {respostaAtual, setRespostaAtual }= useAuth()
+    const history = useHistory()
     
     function StyledRadio(props) {
       const classes = useStyles();
@@ -173,26 +165,40 @@ const Questions = () => {
     
     
 
+    const mostraRespostas = () => {
+      console.log(respostaAtual)
+      console.log(`Respostas certas = ${respostasCertas}`)
+      history.push("/result")
+    }
+
     const somaArray = () => {
+      setRespostaAtual(respostaAtual.concat({
+        Pergunta: dataQuestions[array].question,
+        Resposta: form,
+        RespostaCorreta: dataQuestions[array].correct_answer,
+        RespostaAleatoria: respostaAleatoria,
+      }))
+
+      if(form === dataQuestions[array].correct_answer){
+        setRespostasCertas(respostasCertas + 1)
+      }
+
       if(array + 1 < dataQuestions.length){
       setArray(array+1)
-      
-      } else {
+      console.log(form)      
+      } else {        
         setResultado('block')
         setDisplayNext('none')
       }
     }
+
+    
     
 
-    const onChange = (e) => {
-      const {name, value} = e.target
-
-        setForm({
-          ...form,
-          [name]:{
-            value,
-          },
-        })
+    const onChange = (e) => {      
+      
+      setForm(e.target.value)
+      console.log(form)
        
     }
 
@@ -202,16 +208,16 @@ const Questions = () => {
         <Box className={classes.boxCard}>
         <Card className={classes.root}>          
             <CardContent>
-               <Typography className={classes.title} gutterBottom dangerouslySetInnerHTML={ { __html: `<b>Categoria:</b> ${dataQuestions[array].category}` } }/>
+               <Typography className={classes.title} gutterBottom dangerouslySetInnerHTML={ { __html: `<b>Category:</b> ${dataQuestions[array].category}` } }/>
                 
 
-                <Typography dangerouslySetInnerHTML={{ __html: `<b>Dificuldade:</b> ${dataQuestions[array].difficulty}` }} />
+                <Typography dangerouslySetInnerHTML={{ __html: `<b>Difficulty:</b> ${dataQuestions[array].difficulty}` }} />
                   
-                <Typography className={classes.pos} dangerouslySetInnerHTML={{ __html: `<b>Pergunta:</b> ${dataQuestions[array].question}` }} />
+                <Typography className={classes.pos} dangerouslySetInnerHTML={{ __html: `<b>Question:</b> ${dataQuestions[array].question}` }} />
                   
                 
                 <FormControl className={classes.form} component="fieldset">
-                  <FormLabel className={classes.resposta}>Resposta:</FormLabel>
+                  <FormLabel className={classes.resposta}>Answer:</FormLabel>
                   <RadioGroup aria-label="gender" name="customized-radios">
 
                     {respostaAleatoria.map((resposta) => 
@@ -230,10 +236,10 @@ const Questions = () => {
             </CardContent>       
 
             <Button variant="contained" className={classes.button} style={{display:displayNext}} onClick={somaArray}>
-              Próxima Questão
+              Next
             </Button>   
-            <Button variant="contained" className={classes.button} style={{display:resultado}}>
-              Resultado
+            <Button variant="contained" className={classes.button} style={{display:resultado}} onClick={mostraRespostas}>
+              Result
             </Button>  
             <p className={classes.number}> {`${array + 1} de ${dataQuestions.length}`}</p>
         </Card>

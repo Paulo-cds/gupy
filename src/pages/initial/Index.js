@@ -79,7 +79,9 @@ const Index = () => {
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
   const history = useHistory()
-  const {dataQuestions, setDataQuestions} = useAuth()
+  const {dataQuestions, setDataQuestions, 
+    respostaAtual, setRespostaAtual,
+    respostasCertas, setRespostasCertas} = useAuth()
   const [data, setData] = React.useState([])
   const [state, setState] = React.useState();
 
@@ -121,14 +123,14 @@ const Index = () => {
       <Card className={classes.root}>
         <CardContent className={classes.content}>
           <Typography className={classes.title} color="textSecondary" gutterBottom>
-            Seja bem-vindo!
+            Welcome!
           </Typography>
           <Typography className={classes.subtitle}>
-            Escolha a quantidade de perguntas que deseja responder:
+          Choose the number of questions you want to answer:
           </Typography>
           
           <FormControl variant="filled" className={classes.formControl}>
-            <InputLabel htmlFor="filled-age-native-simple" className={classes.inputQuest}>Perguntas</InputLabel>
+            <InputLabel htmlFor="filled-age-native-simple" className={classes.inputQuest}>Questions</InputLabel>
             <Select
               native
               value={state}
@@ -167,7 +169,7 @@ const Index = () => {
         {/*<DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>*/}
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Tem certeza da quantidade de perguntas?
+            Are you sure?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
