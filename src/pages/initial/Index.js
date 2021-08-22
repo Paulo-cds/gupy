@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -20,12 +20,25 @@ import useAuth from '../../state/auth'
 import Container from '@material-ui/core/Container'
 import Background from '../../images/index.jpg'
 
+
+
+const QuestAnt = localStorage.getItem('QuestAnt')
+const QtdQuestAnt = localStorage.getItem('QtdQuestAnt')
+  //const QuestAntObj = JSON.parse(QuestAnt)
+ let editors = 'none'
+  
+  if(QuestAnt){
+    editors = 'flex'
+  } else {
+    editors = 'none'
+  }
+
+
 const useStyles = makeStyles({
   container:{
     width: '100%',
     height: '100vh',
-    backgroundColor: '#c8c8c8',
-    
+    backgroundColor: '#c8c8c8',    
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
   },
@@ -72,6 +85,20 @@ const useStyles = makeStyles({
   inputQuest:{
     fontSize: '20px',
   },
+  review:{    
+    position: 'absolute',
+    top: 15,
+    left: 15,
+    width: 150,
+    background: 'blue',
+    color: 'white',
+    fontSize: '2px',        
+  },
+  reviewSpan:{
+    fontSize: 15,
+    fontWeight: 'bold',
+  }
+  
 });
 
 
@@ -79,12 +106,18 @@ const Index = () => {
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
   const history = useHistory()
-  const {dataQuestions, setDataQuestions, 
+  const {dataQuestions, setDataQuestions,     
+    respostasCertas, setRespostasCertas ,
     respostaAtual, setRespostaAtual,
-    respostasCertas, setRespostasCertas} = useAuth()
-  const [data, setData] = React.useState([])
-  const [state, setState] = React.useState();
+    respostaAnterior, setRespostaAnterior} = useAuth()
+  
+  const [data, setData] = useState([])
+  const [state, setState] = useState();
+  const respostas = JSON.parse(QuestAnt)
+  const qtdAnterior = JSON.parse(QtdQuestAnt)
+  
 
+  
   const handleChange = (event) => {  
     const value = event.target.value
     setState(value);
@@ -99,27 +132,31 @@ const Index = () => {
     setOpen(!open);
   };
 
-  const handleQuestions = () => {
-    
-    //history.push("/questions")
-    handleDialogOpen()
-    
-    fetchData(state)
-  }
+
 
   async function fetchData() {
     let response = await axios(`https://opentdb.com/api.php?amount=${state}`)
     await setDataQuestions(response.data.results);
     await history.push("/questions")
     
-    /* console.log(data);
-    setDataQuestions(data) */
+    
     handleDialogOpen()
-    // history.push("/questions")
+    
+  }
+
+  const handleAnterior = () => {
+    /* console.log(respostas)
+    setRespostaAnterior(respostas)
+    console.log(`Questoes certas ${qtdAnterior}`)
+    //console.log(`Anterior aqui - ${respostas[0].Pergunta}`) */
+    history.push("/after")
   }
 
   return (
     <Container maxWidth="xl" className={classes.container} style={{backgroundImage: `url(${Background})` }}>
+      <Button className={classes.review} onClick={handleAnterior} autoFocus style={{display: editors}}>
+        <span className={classes.reviewSpan}>Previous</span>
+      </Button>
       <Card className={classes.root}>
         <CardContent className={classes.content}>
           <Typography className={classes.title} color="textSecondary" gutterBottom>

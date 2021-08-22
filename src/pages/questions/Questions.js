@@ -17,6 +17,7 @@ import clsx from 'clsx';
 import Background from '../../images/questions.png'
 import Box from '@material-ui/core/Box'
 import useAuth from '../../state/auth'
+import AuthProvider from '../../state/auth'
 
 const useStyles = makeStyles({
 
@@ -168,6 +169,8 @@ const Questions = () => {
     const mostraRespostas = () => {
       console.log(respostaAtual)
       console.log(`Respostas certas = ${respostasCertas}`)
+      localStorage.setItem('QuestAnt', JSON.stringify(respostaAtual))
+      localStorage.setItem('QtdQuestAnt', JSON.stringify(respostasCertas))
       history.push("/result")
     }
 

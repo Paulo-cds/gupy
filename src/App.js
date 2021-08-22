@@ -1,6 +1,7 @@
 import Index from './pages/initial/Index'
 import Questions from './pages/questions/Questions'
 import Result from './pages/result/result'
+import After from './pages/after/after'
 import './App.css';
 
 import {
@@ -13,7 +14,9 @@ function App() {
   return (
     <Router>
       <Switch>
-      <Route component={Result} path='/result' />
+        <Route component={After} path='/after' />
+
+        <Route component={Result} path='/result' />
 
         <Route component={Questions} path='/questions' />
 
