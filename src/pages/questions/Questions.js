@@ -106,10 +106,19 @@ const useStyles = makeStyles({
   button: {
     background: 'blue',
     color: 'white',
-    right: 5,
+    right: 120,
     bottom: 5,
     position: 'absolute',
     fontSize: '1px',
+    
+  },
+  buttonR: {
+    background: 'blue',
+    color: 'white',
+    right: 5,
+    bottom: 5,
+    position: 'absolute',
+    fontSize: '1px',    
   },
   number:{
     color: 'black',
@@ -138,8 +147,8 @@ const useStyles = makeStyles({
 const Questions = () => {
     const classes = useStyles();
     const [array, setArray] = useState(0)
-    const [resultado, setResultado] = useState('none')
-    const [displayNext, setDisplayNext] = useState('block')
+    const [displayResultado, setDisplayResultado] = useState(true)
+    const [displayNext, setDisplayNext] = useState(true)
     const {dataQuestions} = useAuth()
     const [form, setForm] = useState ()
     const {respostasCertas, setRespostasCertas }= useAuth()
@@ -175,6 +184,7 @@ const Questions = () => {
     }
 
     const somaArray = () => {
+      setDisplayNext(!displayNext)
       setRespostaAtual(respostaAtual.concat({
         Pergunta: dataQuestions[array].question,
         Resposta: form,
@@ -190,8 +200,8 @@ const Questions = () => {
       setArray(array+1)
       console.log(form)      
       } else {        
-        setResultado('block')
-        setDisplayNext('none')
+        setDisplayResultado(!displayResultado)
+        setDisplayNext(!displayNext)
       }
     }
 
@@ -202,6 +212,7 @@ const Questions = () => {
       
       setForm(e.target.value)
       console.log(form)
+      setDisplayNext(!displayNext)
        
     }
 
@@ -238,10 +249,10 @@ const Questions = () => {
                 </FormControl>
             </CardContent>       
 
-            <Button variant="contained" className={classes.button} style={{display:displayNext}} onClick={somaArray}>
+            <Button variant="contained" className={classes.button} disabled={displayNext} onClick={somaArray}>
               Next
             </Button>   
-            <Button variant="contained" className={classes.button} style={{display:resultado}} onClick={mostraRespostas}>
+            <Button variant="contained" className={classes.buttonR} disabled={displayResultado} onClick={mostraRespostas}>
               Result
             </Button>  
             <p className={classes.number}> {`${array + 1} de ${dataQuestions.length}`}</p>
