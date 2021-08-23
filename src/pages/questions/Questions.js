@@ -1,10 +1,9 @@
-import {useEffect, useState} from 'react'
+import { useState } from 'react'
 import { useHistory } from "react-router-dom"
 import Container from '@material-ui/core/Container'
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -17,7 +16,7 @@ import clsx from 'clsx';
 import Background from '../../images/questions.png'
 import Box from '@material-ui/core/Box'
 import useAuth from '../../state/auth'
-import AuthProvider from '../../state/auth'
+
 
 const useStyles = makeStyles({
 
@@ -29,15 +28,20 @@ const useStyles = makeStyles({
     backgroundRepeat: 'no-repeat',
     backgroundPosition: '200%',  
     display: 'flex',    
+    justifyContent: 'center',
   },
   box:{
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     width:'50%',
     backgroundPosition: 'center',
+    display: 'flex',    
+    justifyContent: 'center',
   },
   boxCard:{
     width: '50%',
+    display: 'flex',    
+    justifyContent: 'center',
   },
   root: {
     width: 500,
@@ -175,9 +179,7 @@ const Questions = () => {
     
     
 
-    const mostraRespostas = () => {
-      console.log(respostaAtual)
-      console.log(`Respostas certas = ${respostasCertas}`)
+    const mostraRespostas = () => {            
       localStorage.setItem('QuestAnt', JSON.stringify(respostaAtual))
       localStorage.setItem('QtdQuestAnt', JSON.stringify(respostasCertas))
       history.push("/result")
@@ -197,21 +199,19 @@ const Questions = () => {
       }
 
       if(array + 1 < dataQuestions.length){
-      setArray(array+1)
-      console.log(form)      
+      setArray(array+1)          
       } else {        
         setDisplayResultado(!displayResultado)
         setDisplayNext(!displayNext)
       }
     }
 
-    
+
     
 
     const onChange = (e) => {      
       
-      setForm(e.target.value)
-      console.log(form)
+      setForm(e.target.value)      
       setDisplayNext(!displayNext)
        
     }
@@ -238,7 +238,7 @@ const Questions = () => {
                       <FormControlLabel 
                       value= {(resposta)} 
                       control={<StyledRadio />} 
-                      label={(resposta)}
+                      label={<span dangerouslySetInnerHTML={{ __html: resposta }} />}
                       name={`question${array}`}
                       onChange={onChange}
                     />

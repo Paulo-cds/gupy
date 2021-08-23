@@ -1,16 +1,11 @@
-import {useEffect, useState} from 'react'
-import axios from 'axios'
 import Container from '@material-ui/core/Container'
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Background from '../../images/questions.jpeg'
 import Box from '@material-ui/core/Box'
-import useAuth from '../../state/auth'
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText'
@@ -18,8 +13,6 @@ import HomeIcon from '@material-ui/icons/Home';
 import { useHistory } from 'react-router-dom';
 
 
-let QtAntInicial = localStorage.getItem('QuestAnt')
-let QtAnt = JSON.parse(QtAntInicial)
 
 const useStyles = makeStyles({
 
@@ -182,12 +175,7 @@ const Questions = () => {
 
     const respostas = JSON.parse(QuestAnt)
     const qtdAnterior = JSON.parse(QtdQuestAnt)
-    
-    const {respostasCertas, setRespostasCertas }= useAuth()
-    const {respostaAtual, setRespostaAtual} = useAuth()
-    
-
-    
+        
    
     const goHome = () => {
       history.push("/")
@@ -210,7 +198,7 @@ const Questions = () => {
                 <CardContent>
                 
                     
-                    <Typography className={classes.pos} dangerouslySetInnerHTML={{ __html: `<b>Pergunta:</b> ${atual.Pergunta}` }} />
+                    <Typography className={classes.pos} dangerouslySetInnerHTML={{ __html: `<b>Question:</b> ${atual.Pergunta}` }} />
                     
                     
                       <List>
@@ -223,7 +211,7 @@ const Questions = () => {
                               resposta === atual.Resposta && resposta !== atual.RespostaCorreta ? classes.respostaErrada :
                               atual.RespostaCorreta !== atual.Resposta && resposta === atual.RespostaCorreta ? classes.respostaCerta :
                               classes.respostaNeutra} >
-                              {(resposta)}
+                              {(<span dangerouslySetInnerHTML={{ __html: resposta }} />)}
                             </ListItemText>
                           </ListItem>
                         )}   

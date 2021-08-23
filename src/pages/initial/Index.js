@@ -1,12 +1,10 @@
 import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import InputLabel from '@material-ui/core/InputLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { useHistory } from "react-router-dom"
@@ -14,7 +12,6 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import axios from 'axios'
 import useAuth from '../../state/auth'
 import Container from '@material-ui/core/Container'
@@ -23,8 +20,7 @@ import Background from '../../images/index.jpg'
 
 
 const QuestAnt = localStorage.getItem('QuestAnt')
-const QtdQuestAnt = localStorage.getItem('QtdQuestAnt')
-  //const QuestAntObj = JSON.parse(QuestAnt)
+ 
  let editors = 'none'
   
   if(QuestAnt){
@@ -103,26 +99,22 @@ const useStyles = makeStyles({
 
 
 const Index = () => {
-  const classes = useStyles();
-  const bull = <span className={classes.bullet}>•</span>;
+  const classes = useStyles();  
   const history = useHistory()
   const {dataQuestions, setDataQuestions,     
     respostasCertas, setRespostasCertas ,
     respostaAtual, setRespostaAtual,
     respostaAnterior, setRespostaAnterior} = useAuth()
   
-  const [data, setData] = useState([])
+  
   const [state, setState] = useState();
-  const respostas = JSON.parse(QuestAnt)
-  const qtdAnterior = JSON.parse(QtdQuestAnt)
+
   
 
   
   const handleChange = (event) => {  
     const value = event.target.value
-    setState(value);
-    console.log(value)
-
+    setState(value);    
     handleDialogOpen()
   };
 
@@ -137,18 +129,11 @@ const Index = () => {
   async function fetchData() {
     let response = await axios(`https://opentdb.com/api.php?amount=${state}`)
     await setDataQuestions(response.data.results);
-    await history.push("/questions")
-    
-    
-    handleDialogOpen()
-    
+    await history.push("/questions")        
+    handleDialogOpen()    
   }
 
   const handleAnterior = () => {
-    /* console.log(respostas)
-    setRespostaAnterior(respostas)
-    console.log(`Questoes certas ${qtdAnterior}`)
-    //console.log(`Anterior aqui - ${respostas[0].Pergunta}`) */
     history.push("/after")
   }
 
@@ -203,7 +188,7 @@ const Index = () => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        {/*<DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>*/}
+        
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             Are you sure?
