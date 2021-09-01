@@ -29,6 +29,12 @@ const useStyles = makeStyles({
     backgroundPosition: '200%',  
     display: 'flex',    
     justifyContent: 'center',
+    overflow: 'auto',
+    overflowX: 'hidden',
+
+    '@media (max-width:780px)': { 
+      display: 'block',
+    }
   },
   box:{
     backgroundSize: 'cover',
@@ -37,14 +43,27 @@ const useStyles = makeStyles({
     backgroundPosition: 'center',
     display: 'flex',    
     justifyContent: 'center',
+
+    '@media (max-width:780px)': { 
+      display: 'none',
+    }
   },
   boxCard:{
     width: '50%',
     display: 'flex',    
     justifyContent: 'center',
+    
+
+    '@media (max-width:780px)': { 
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
+      width:'100%',
+      backgroundPosition: 'center',
+      backgroundImage: `url(${Background})`,
+    }
   },
   root: {
-    width: 500,
+    width: '30rem',
     minHeight: 450,
     display: 'block',
     position: 'absolute',
@@ -55,6 +74,12 @@ const useStyles = makeStyles({
     padding: 10,
     boxShadow: '0px 0px 30px black',
     opacity: .85,
+
+    '@media (max-width:780px)': { 
+      width: '18rem',
+      right: 'auto',
+      height: 'fit-content',
+    }
   },
 
   bullet: {

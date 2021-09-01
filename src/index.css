@@ -4,6 +4,11 @@
   box-sizing: border-box;
   font-family: 'Roboto', sans-serif;
   font-size: 20px;
+  
+}
+
+@media(max-width: 600px){
+  *{font-size: 17px;}
 }
 
 body {
