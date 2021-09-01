@@ -34,6 +34,11 @@ const useStyles = makeStyles({
 
     '@media (max-width:780px)': { 
       display: 'block',
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
+      
+      backgroundPosition: 'center',
+      backgroundImage: `url(${Background})`,
     }
   },
   box:{
@@ -54,12 +59,8 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     
 
-    '@media (max-width:780px)': { 
-      backgroundSize: 'cover',
-      backgroundRepeat: 'no-repeat',
-      width:'100%',
-      backgroundPosition: 'center',
-      backgroundImage: `url(${Background})`,
+    '@media (max-width:780px)': {      
+      width:'100%',      
     }
   },
   root: {
