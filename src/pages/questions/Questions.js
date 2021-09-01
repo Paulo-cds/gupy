@@ -29,16 +29,16 @@ const useStyles = makeStyles({
     backgroundPosition: '200%',  
     display: 'flex',    
     justifyContent: 'center',
-    overflow: 'auto',
-    overflowX: 'hidden',
+    
 
     '@media (max-width:780px)': { 
       display: 'block',
       backgroundSize: 'cover',
-      backgroundRepeat: 'no-repeat',
-      
+      backgroundRepeat: 'no-repeat',      
       backgroundPosition: 'center',
       backgroundImage: `url(${Background})`,
+      overflow: 'auto',
+      overflowX: 'hidden',
     }
   },
   box:{

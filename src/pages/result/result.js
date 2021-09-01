@@ -17,7 +17,7 @@ const useStyles = makeStyles({
 
   container:{
     width: '100%',
-    minHeight: '100vh',
+    height: '100vh',
     backgroundColor: 'black',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
@@ -26,6 +26,14 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     alignItems: 'center',
     paddingBottom: 20,
+    overflow: 'auto',
+    overflowX: 'hidden',
+
+    '@media (max-width:780px)': { 
+      display: 'block',
+      alignItems: 'center',
+
+    }
   },  
   boxCard:{
     width: '80%',
@@ -33,6 +41,8 @@ const useStyles = makeStyles({
     flexWrap: 'wrap',
     justifyContent: 'center',
     marginTop: 100,
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   root: {
     width: 450,
@@ -141,6 +151,27 @@ const useStyles = makeStyles({
       padding: 15,
       borderRadius: 5,
       opacity: .85,
+
+      '@media (min-width: 601px) and (max-width:780px)': { 
+        left: '30%',
+  
+      },
+
+      '@media (min-width: 401px) and (max-width:600px)': { 
+        width: 250,
+        left: '20%',
+      },
+
+      '@media (max-width:400px)': { 
+        width: 200,
+        left: '22%',
+      },
+
+      '@media (max-width:350px)': { 
+        width: 180,
+        left: '22%',
+      },
+      
   },
   respostaCerta: {
     color: 'green',
